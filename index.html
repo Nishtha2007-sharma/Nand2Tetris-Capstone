@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hack Computer Lab – Nishtha Sharma (2501730056)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="top" aria-label="Main"><div class="wrap">
+  <a class="logo" href="#home">Hack <b>Computer</b> Lab</a>
+  <a class="nl" href="#home">Home</a><a class="nl" href="#parta">Part A</a><a class="nl" href="#partb">Part B</a><a class="nl" href="#partc">Part C</a><a class="nl" href="#submission">Submission</a>
+  <a class="btn" href="#emulator">Box Emulator</a>
+</div></nav>
+<main>
+<section id="home" class="hero"><div class="wrap">
+  <div>
+    <span class="pill c">Nand to Tetris – I (ETCNTC301)</span>
+    <h1>Nishtha Sharma</h1>
+    <div class="meta"><span class="pill">Roll No. 2501730056</span><span class="pill">K = 56</span><span class="pill c">Individual work · 10 marks</span></div>
+    <p class="lead">“Make the Computer Draw a Box”: a Hack computer built from logic gates, an assembler written in Python, and a program that paints a black 16 × 20 box at row 56 while a key is held down.</p>
+    <p class="muted" style="color:#9fb0d8">School of Engineering &amp; Technology, K.R. Mangalam University</p>
+    <a class="btn" href="#emulator">Hold a key and draw the box</a>
+  </div>
+  <div aria-label="Position of the box on the 512 by 256 screen"><div class="frame"><i></i><span>row 56 · 16 × 20 px</span></div><p class="muted" style="color:#9fb0d8;font-size:.85rem;margin:8px 0 0">The box sits on the left edge of the 512 × 256 screen, starting at row 56.</p></div>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <div class="sh"><h2>The Three Pillars of the Hack Machine</h2></div>
+  <div class="grid g3">
+    <div class="card pillar"><span class="pill">2.5 marks</span><h3>Hack Computer HDL</h3><p>CPU, Memory and Computer chips wired from ALU, registers and PC.</p><a href="#parta">Open Part A →</a></div>
+    <div class="card pillar"><span class="pill">3 marks</span><h3>Python Assembler</h3><p>Two-pass assembler with a duplicate-label warning (2.5 + 0.5).</p><a href="#partb">Open Part B →</a></div>
+    <div class="card pillar"><span class="pill">2.5 marks</span><h3>Box Program &amp; Emulator</h3><p>Box.asm assembled to Box.hack and run on a Hack CPU emulator.</p><a href="#partc">Open Part C →</a></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>My K parameters</h3>
+    <table><tbody>
+    <tr><th scope="row">K</th><td>56 (last two digits of 2501730056)</td></tr>
+    <tr><th scope="row">Start row</th><td>K = 56</td></tr>
+    <tr><th scope="row">Start address</th><td>16384 + 32 × 56 = 18176 (0x4700)</td></tr>
+    <tr><th scope="row">Width</th><td>K mod 4 = 0, so 16 × (0 + 1) = 16 px = 1 word per row</td></tr>
+    <tr><th scope="row">Height</th><td>20 rows (last word 18176 + 32 × 19 = 18784)</td></tr>
+    <tr><th scope="row">Extra feature</th><td>K mod 3 = 2: warn when the same label is written twice</td></tr>
+    </tbody></table>
+    <p class="muted">Marks: Part A 2.5 · Part B 3 · Part C 2.5 · Viva 2</p></div>
+</div></section>
+
+<section id="parta" class="s"><div class="wrap">
+  <div class="sh"><h2>Part A: Hardware Description Language</h2><p>My real CPU.hdl, Memory.hdl and Computer.hdl, with the logic explained beside each.</p></div>
+  <div class="card"><div id="hdl-tabs" class="tabs" role="tablist" aria-label="HDL files"></div><div id="hdl-body" role="tabpanel"></div></div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card"><h3>Memory map</h3>
+      <div class="mem" role="img" aria-label="RAM 0 to 16383, Screen 16384 to 24575, Keyboard 24576"><div class="r">RAM16K</div><div class="sc">Screen</div><div class="kb">KBD</div></div>
+      <table><tbody><tr><td>RAM</td><td>0 – 16383</td></tr><tr><td>Screen</td><td>16384 – 24575</td></tr><tr><td>Keyboard</td><td>24576</td></tr></tbody></table></div>
+    <div class="card"><h3>Verification suite</h3><p class="muted">Add screenshots to <code>assets/</code> and list them in <code>SHOTS</code> in <code>data.js</code>.</p><div id="shots" class="shots"></div></div>
+  </div>
+</div></section>
+
+<section id="partb" class="s"><div class="wrap">
+  <div class="sh"><h2>Part B: Two-Pass Assembler Studio</h2><p>A JavaScript port of my assembler.py. First pass collects labels, second pass resolves symbols and allocates variables from RAM 16.</p></div>
+  <div class="split">
+    <div class="card"><h3>Source</h3>
+      <div class="row"><label for="preset" class="sr">Preset</label><select id="preset"></select><button class="btn" id="asm-go">Assemble</button><button class="btn alt" id="asm-k">Try the K feature</button></div>
+      <label for="asm-src" class="sr">Assembly source</label><textarea id="asm-src" spellcheck="false"></textarea></div>
+    <div class="card"><div id="out-tabs" class="tabs" role="tablist" aria-label="Assembler output"></div>
+      <div id="asm-status" class="status" aria-live="polite"></div><div id="asm-msgs"></div><div id="out-body" role="tabpanel"></div></div>
+  </div>
+</div></section>
+
+<section id="partc" class="s"><div class="wrap">
+  <div class="sh"><h2>Part C: Box Program &amp; CPU Emulator</h2><p>Hold any key, or press and hold the mouse or your finger on the screen, and the box is drawn. Let go and it is erased. Customize K to move the box and change its width.</p></div>
+  <div id="emulator" class="split">
+    <div class="card"><h3>Hack screen</h3>
+      <div class="screenwrap"><canvas id="screen" width="512" height="256" aria-label="Hack screen, 512 by 256 pixels"></canvas></div>
+      <div class="row">
+        <button class="btn" id="b-pause">Pause CPU</button><button class="btn alt" id="b-step">Single Step</button><button class="btn alt" id="b-reset">Reset</button>
+        <button class="btn" id="b-hold">Hold key to draw box</button></div>
+      <div class="row"><label for="speed">Speed: <b id="speed-v"></b> cycles/frame</label><input type="range" id="speed" min="10" max="5000" step="10" value="1000">
+        <label for="prog">Program</label><select id="prog"><option value="file">Box.hack (my file)</option><option value="asm">Assembler output (Part B)</option></select></div>
+      <div class="row k-controls"><label class="toggle" for="custom-k"><input type="checkbox" id="custom-k"> Customize K</label><label for="custom-k-value">K value (0–236)</label><input type="number" id="custom-k-value" min="0" max="236" step="1" value="56" disabled><span class="muted">Controls box row and width.</span></div>
+      <p id="prog-msg" class="muted" aria-live="polite"></p>
+    </div>
+    <div class="card"><h3>Live CPU registers</h3>
+      <div class="regs"><div class="reg"><small>K</small><b id="r-k"></b></div><div class="reg"><small>PC</small><b id="r-pc"></b></div><div class="reg"><small>A</small><b id="r-a"></b></div><div class="reg"><small>D</small><b id="r-d"></b></div><div class="reg"><small>RAM[24576] KBD</small><b id="r-kbd"></b></div><div class="reg"><small>Total cycles</small><b id="r-cyc"></b></div></div>
+      <span id="kst" class="kst up">Key Released (Box Erased)</span>
+      <h3 style="margin-top:18px">Screen memory address monitor</h3>
+      <table><thead><tr><th>Address</th><th>Hex</th><th>Decimal</th><th>Binary</th></tr></thead><tbody id="mon"></tbody></table>
+      <div class="row"><label for="watch">Watch address</label><select id="watch"></select></div>
+    </div>
+  </div>
+  <div class="split" style="margin-top:18px">
+    <div class="card"><h3>Box.asm (current instruction highlighted)</h3><p class="muted">The left gutter shows the ROM address of each instruction.</p><div id="annot"></div></div>
+    <div class="card"><h3>How the keyboard polling works</h3>
+      <ul><li>The program loops forever, reading <code>RAM[24576]</code> (the keyboard register).</li>
+      <li>Any key makes it non-zero, so the colour variable is set to <code>-1</code> (all 16 bits on, black). Otherwise it is set to <code>0</code> (white).</li>
+      <li>It then repaints 20 words starting at <code>18176</code>, adding <code>32</code> after each word to reach the next row.</li>
+      <li>The emulator writes 65 into RAM[24576] only while a key or pointer is physically held, and 0 otherwise. Nothing latches.</li></ul></div>
+  </div>
+</div></section>
+
+<section id="submission" class="s"><div class="wrap">
+  <div class="sh"><h2>Submission</h2><p>Checkboxes live in memory only and reset when the page reloads.</p></div>
+  <div class="grid g2">
+    <div class="card chk"><h3>Assignment checklist</h3><div id="checklist"></div></div>
+    <div class="card"><h3>Viva quick-reference</h3>
+      <div class="row"><label for="roll">Roll number</label><input type="text" id="roll" value="2501730056" inputmode="numeric"></div><div id="kcalc"></div>
+      <h3 style="margin-top:18px">Move the box to row N</h3>
+      <div class="row"><label for="rown">Row N</label><input type="number" id="rown" min="0" max="236" value="56"></div><div id="move"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>Files in capstone/</h3><div id="files"></div></div>
+</div></section>
+</main>
+<footer><div class="wrap grid g2">
+  <div><h3>Hack Computer Lab</h3><p>Nand to Tetris – I (ETCNTC301)<br>School of Engineering &amp; Technology, K.R. Mangalam University</p><p><b>Nishtha Sharma</b> · Roll No. 2501730056</p></div>
+  <table><tbody><tr><th scope="row">Start row</th><td>56</td></tr><tr><th scope="row">Box size</th><td>16 px × 20 rows</td></tr><tr><th scope="row">Screen start address</th><td>18176</td></tr><tr><th scope="row">Last word</th><td>18784</td></tr></tbody></table>
+</div></footer>
+<script src="data.js"></script><script src="assembler.js"></script><script src="emulator.js"></script><script src="ui.js"></script>
+</body></html>
